@@ -48,15 +48,22 @@
           .slice()
           .sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); })
           .map(function (d) {
-            var lien = d.fichier
-              ? '<a href="' + withRoot(esc(d.fichier)) + '">Télécharger le document (PDF)</a>'
-              : "";
+            var actions = "";
+            if (d.fichier) {
+              var pdfPath = withRoot(esc(d.fichier));
+              actions =
+                '<div class="doc-item__actions">' +
+                '<button type="button" class="doc-item__action" data-preview-pdf="' + pdfPath +
+                '" data-title="' + esc(d.titre) + '">Aperçu</button>' +
+                '<a class="doc-item__action" href="' + pdfPath + '">Télécharger le PDF</a>' +
+                "</div>";
+            }
             return (
               '<li class="doc-item">' +
               '<p class="doc-item__meta">' + frDate(d.date) + "</p>" +
               "<h3>" + esc(d.titre) + "</h3>" +
               "<p>" + esc(d.resume) + "</p>" +
-              lien +
+              actions +
               "</li>"
             );
           })
@@ -80,11 +87,15 @@
           .slice()
           .sort(function (a, b) { return (b.date || "").localeCompare(a.date || ""); })
           .map(function (p) {
+            var imgPath = withRoot(esc(p.image));
             return (
               "<figure>" +
-              '<img src="' + withRoot(esc(p.image)) + '" alt="' + esc(p.legende) +
+              '<button type="button" class="thumb" data-preview-img="' + imgPath +
+              '" data-caption="' + esc(p.legende) + '">' +
+              '<img src="' + imgPath + '" alt="' + esc(p.legende) +
               '" loading="lazy" width="800" height="600"' +
               " onerror=\"this.onerror=null;this.src='" + ROOT + "assets/img/placeholder.svg'\">" +
+              "</button>" +
               "<figcaption>" + esc(p.legende) +
               (p.date ? "<time>" + frDate(p.date) + "</time>" : "") +
               "</figcaption>" +

@@ -164,7 +164,16 @@ bonus-harvest/
 
 ---
 
-## 7. À faire plus tard (version 2)
+## 7. Agent Claude dédié
+
+Un agent Claude Code spécialisé, **`bonus-harvest-manager`**, connaît la structure de ce
+site (fichiers `data/<service>.js`, emplacements des photos/PDF, règle de confirmation
+avant `git push`). Il est installé sur cet ordinateur dans
+`~/.claude/agents/bonus-harvest-manager.md`. Pas besoin de l'invoquer par son nom : il
+suffit de demander normalement (« ajoute cette photo au service Traçabilité », « publie
+le site ») pour qu'il prenne le relais.
+
+## 8. À faire plus tard (version 2)
 
 - Rubriques Durabilité / Produits / Actualités / Investisseurs.
 - Vrai formulaire de contact (avec envoi côté serveur).

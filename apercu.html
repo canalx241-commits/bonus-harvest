@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aperçu des publications — Bonus Harvest</title>
+<meta name="description" content="Toutes les publications de Bonus Harvest : résumés de documents et photos de terrain, de tous les services.">
+<link rel="icon" href="assets/Logo_BH.png" type="image/png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-root="" data-page="apercu">
+
+<main id="main">
+
+  <div class="page-head">
+    <div class="container">
+      <p class="breadcrumb"><a href="index.html">Accueil</a> / Aperçu</p>
+      <h1>Aperçu des publications</h1>
+      <p>Tous les résumés de documents et toutes les photos de terrain, publiés par l'ensemble des services, au même endroit.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+
+      <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin-bottom:1.5rem;">
+        <p id="apercu-counts" class="eyebrow" style="margin:0;">Chargement…</p>
+        <div id="apercu-filtres" class="btn-row" role="group" aria-label="Filtrer les publications">
+          <button type="button" class="btn btn--primary" data-filter="tous" aria-pressed="true">Tout</button>
+          <button type="button" class="btn btn--ghost" data-filter="document" aria-pressed="false">Documents</button>
+          <button type="button" class="btn btn--ghost" data-filter="photo" aria-pressed="false">Photos de terrain</button>
+        </div>
+      </div>
+
+      <div id="apercu-list"><p class="pub-empty">Chargement des publications…</p></div>
+
+      <noscript>
+        <p class="pub-empty">Active JavaScript pour voir la liste des publications, ou consulte
+        directement <a href="services/index.html">la page de chaque service</a>.</p>
+      </noscript>
+    </div>
+  </section>
+
+</main>
+
+<script src="data/_services.js"></script>
+<script src="assets/js/site.js"></script>
+<script src="assets/js/overview.js"></script>
+</body>
+</html>

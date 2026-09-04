@@ -57,6 +57,7 @@
     ">Services <span aria-hidden=\"true\">▾</span></button>" +
     '<div class="submenu">' + submenuHtml + "</div>" +
     "</li>" +
+    topLink("apercu", "apercu.html", "Aperçu") +
     topLink("contact", "contact.html", "Contact") +
     "</ul>" +
     "</nav>" +
@@ -86,6 +87,7 @@
     '<li><a href="' + ROOT + 'index.html">Accueil</a></li>' +
     '<li><a href="' + ROOT + 'a-propos.html">À propos</a></li>' +
     '<li><a href="' + ROOT + 'services/index.html">Services</a></li>' +
+    '<li><a href="' + ROOT + 'apercu.html">Aperçu</a></li>' +
     '<li><a href="' + ROOT + 'contact.html">Contact</a></li>' +
     "</ul>" +
     "</div>" +

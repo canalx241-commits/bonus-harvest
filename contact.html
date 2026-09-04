@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact — Bonus Harvest</title>
+<meta name="description" content="Contacter Bonus Harvest : coordonnées et formulaire de demande.">
+<link rel="icon" href="assets/Logo_BH.png" type="image/png">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-root="" data-page="contact">
+
+<main id="main">
+
+  <div class="page-head">
+    <div class="container">
+      <p class="breadcrumb"><a href="index.html">Accueil</a> / Contact</p>
+      <h1>Contact</h1>
+      <p>Pour toute demande d'information, de documentation ou de partenariat.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="card-grid">
+        <div class="card">
+          <h3>Coordonnées</h3>
+          <p>
+            Bonus Harvest<br>
+            Adresse : à compléter<br>
+            Ville / Pays : à compléter<br>
+            Tél. : à compléter<br>
+            E-mail : <a href="mailto:contact@bonusharvest.example">contact@bonusharvest.example</a>
+          </p>
+        </div>
+        <div class="card">
+          <h3>Horaires</h3>
+          <p>Du lundi au vendredi, 8h – 17h (à confirmer).</p>
+        </div>
+      </div>
+
+      <div class="prose" style="margin-top:2.5rem">
+        <h2>Écrire à Bonus Harvest</h2>
+        <p class="note">
+          Ce formulaire ouvre votre logiciel de messagerie avec le message pré-rempli
+          (pas d'envoi automatique côté serveur). Un vrai formulaire pourra être ajouté
+          plus tard.
+        </p>
+        <form id="contact-form">
+          <div class="field">
+            <label for="cf-nom">Nom</label>
+            <input type="text" id="cf-nom" name="nom" required>
+          </div>
+          <div class="field">
+            <label for="cf-email">Votre e-mail</label>
+            <input type="email" id="cf-email" name="email" required>
+          </div>
+          <div class="field">
+            <label for="cf-sujet">Sujet</label>
+            <input type="text" id="cf-sujet" name="sujet" required>
+          </div>
+          <div class="field">
+            <label for="cf-msg">Message</label>
+            <textarea id="cf-msg" name="message" required></textarea>
+          </div>
+          <button class="btn btn--primary" type="submit">Ouvrir dans ma messagerie</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="data/_services.js"></script>
+<script src="assets/js/site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var form = document.getElementById("contact-form");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var nom = form.nom.value.trim();
+    var email = form.email.value.trim();
+    var sujet = form.sujet.value.trim();
+    var msg = form.message.value.trim();
+    var corps = "Nom : " + nom + "\nE-mail : " + email + "\n\n" + msg;
+    window.location.href =
+      "mailto:contact@bonusharvest.example" +
+      "?subject=" + encodeURIComponent("[Contact site] " + sujet) +
+      "&body=" + encodeURIComponent(corps);
+  });
+})();
+</script>
+</body>
+</html>

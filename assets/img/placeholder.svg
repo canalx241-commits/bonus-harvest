@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" role="img" aria-label="Photo à venir">
+  <rect width="400" height="300" fill="#e8f1eb"/>
+  <path d="M0 220l90-70 70 45 100-90 140 110v85H0z" fill="#7cc39a"/>
+  <circle cx="310" cy="70" r="28" fill="#f4d58d"/>
+  <text x="200" y="285" text-anchor="middle" font-family="Georgia, serif" font-size="18" fill="#1b5e3f">Photo de terrain à venir</text>
+</svg>

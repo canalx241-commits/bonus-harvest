@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nouvelle publication — Outil interne — Bonus Harvest</title>
+<meta name="description" content="Outil d'aide pour publier un résumé de document ou une photo de terrain sur le site Bonus Harvest.">
+<link rel="icon" href="../assets/Logo_BH.png" type="image/png">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-page="outils">
+
+<main id="main">
+
+  <div class="page-head">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">Accueil</a> / Outil interne</p>
+      <h1>Publier une fiche</h1>
+      <p>
+        Cet outil ne modifie rien tout seul : il prépare le texte à copier dans le bon fichier,
+        et te rappelle où déposer la photo ou le PDF.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div style="display:grid; gap:2.5rem; grid-template-columns:minmax(0,1fr) minmax(0,1fr);" class="pub-cols">
+
+        <form id="pub-form">
+          <div class="field">
+            <label for="f-service">Service</label>
+            <select id="f-service" required></select>
+          </div>
+
+          <div class="field">
+            <label for="f-type">Type de publication</label>
+            <select id="f-type">
+              <option value="document">Résumé de document</option>
+              <option value="photo">Photo de terrain</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="f-date">Date (AAAA-MM-JJ)</label>
+            <input type="date" id="f-date" required>
+          </div>
+
+          <div data-when="document">
+            <div class="field">
+              <label for="f-titre">Titre du document</label>
+              <input type="text" id="f-titre" placeholder="Rapport trimestriel de traçabilité — T3 2026">
+            </div>
+            <div class="field">
+              <label for="f-resume">Résumé</label>
+              <textarea id="f-resume" placeholder="En quelques phrases : de quoi parle le document, principaux résultats ou décisions."></textarea>
+            </div>
+            <div class="field">
+              <label for="f-fichier">Nom du fichier PDF (optionnel)</label>
+              <input type="text" id="f-fichier" placeholder="tracabilite-t3-2026.pdf">
+            </div>
+          </div>
+
+          <div data-when="photo" hidden>
+            <div class="field">
+              <label for="f-legende">Légende de la photo</label>
+              <input type="text" id="f-legende" placeholder="Marquage et numérotation des grumes au parc forêt">
+            </div>
+            <div class="field">
+              <label for="f-image">Nom du fichier image</label>
+              <input type="text" id="f-image" placeholder="marquage-grumes.jpg">
+            </div>
+          </div>
+
+          <button class="btn btn--primary" type="submit">Générer la fiche</button>
+        </form>
+
+        <div>
+          <h2 style="font-family:var(--font-heading); font-size:var(--text-h2); margin-top:0;">Résultat</h2>
+          <div id="result">
+            <p class="pub-empty">Remplis le formulaire puis clique sur « Générer la fiche ».</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="../data/_services.js"></script>
+<script src="../assets/js/site.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  var services = (window.BH_SERVICES || []);
+  var sel = document.getElementById("f-service");
+  sel.innerHTML = services.map(function (s) {
+    return '<option value="' + s.slug + '">' + s.nom + "</option>";
+  }).join("");
+
+  var form = document.getElementById("pub-form");
+  var typeSel = document.getElementById("f-type");
+  var result = document.getElementById("result");
+  document.getElementById("f-date").value = new Date().toISOString().slice(0, 10);
+
+  function syncType() {
+    var t = typeSel.value;
+    form.querySelectorAll("[data-when]").forEach(function (block) {
+      block.hidden = block.getAttribute("data-when") !== t;
+    });
+  }
+  typeSel.addEventListener("change", syncType);
+  syncType();
+
+  function esc(v) {
+    return String(v == null ? "" : v)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  // Guillemets droits -> échappés pour rester dans une chaîne JS "..."
+  function jsStr(v) {
+    return String(v == null ? "" : v).trim().replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var slug = sel.value;
+    var date = document.getElementById("f-date").value;
+    var type = typeSel.value;
+
+    var bloc, cible, depot;
+
+    if (type === "document") {
+      var titre = document.getElementById("f-titre").value;
+      var resume = document.getElementById("f-resume").value;
+      var fichier = document.getElementById("f-fichier").value.trim();
+      if (!titre || !resume) { alert("Titre et résumé sont obligatoires."); return; }
+      bloc =
+        "    {\n" +
+        '      titre: "' + jsStr(titre) + '",\n' +
+        '      date: "' + jsStr(date) + '",\n' +
+        '      resume:\n' +
+        '        "' + jsStr(resume) + '"' +
+        (fichier ? ',\n      fichier: "assets/docs/' + jsStr(fichier) + '"\n' : "\n") +
+        "    }";
+      cible = 'le tableau  documents: [ ... ]  du fichier  data/' + slug + '.js';
+      depot = fichier
+        ? "Dépose le PDF ici :  bonus-harvest/assets/docs/" + esc(fichier)
+        : "(pas de PDF pour cette fiche)";
+    } else {
+      var legende = document.getElementById("f-legende").value;
+      var image = document.getElementById("f-image").value.trim();
+      if (!legende || !image) { alert("Légende et nom de fichier image sont obligatoires."); return; }
+      bloc =
+        "    {\n" +
+        '      image: "assets/img/terrain/' + slug + "/" + jsStr(image) + '",\n' +
+        '      legende: "' + jsStr(legende) + '",\n' +
+        '      date: "' + jsStr(date) + '"\n' +
+        "    }";
+      cible = 'le tableau  photos: [ ... ]  du fichier  data/' + slug + '.js';
+      depot = "Dépose la photo ici :  bonus-harvest/assets/img/terrain/" + esc(slug) + "/" + esc(image);
+    }
+
+    result.innerHTML =
+      '<ol class="prose" style="padding-left:1.1rem; max-width:none;">' +
+      "<li>Ajoute ce bloc (sans oublier la virgule si d'autres fiches suivent) dans <strong>" + esc(cible) + "</strong> :</li>" +
+      "</ol>" +
+      '<pre class="output-box">' + esc(bloc) + "</pre>" +
+      '<p class="note">' + esc(depot) + "</p>" +
+      '<p class="prose" style="max-width:none;">Puis publie avec ces trois commandes dans le dossier <code>bonus-harvest</code> :</p>' +
+      '<pre class="output-box">git add .\n' +
+      'git commit -m "Publication : ' + jsStr(services.find(function (s){return s.slug===slug;}).nom) + '"\n' +
+      "git push</pre>";
+    result.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+})();
+</script>
+<style>
+  @media (max-width: 800px) {
+    .pub-cols { grid-template-columns: 1fr !important; }
+  }
+</style>
+</body>
+</html>

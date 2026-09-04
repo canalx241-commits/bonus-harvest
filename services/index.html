@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Services — Bonus Harvest</title>
+<meta name="description" content="Organisation de Bonus Harvest : Direction Générale, Direction de site et Direction Gestion Durable avec ses douze services.">
+<link rel="icon" href="../assets/Logo_BH.png" type="image/png">
+<link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-root="../" data-page="services/index">
+
+<main id="main">
+
+  <div class="page-head">
+    <div class="container">
+      <p class="breadcrumb"><a href="../index.html">Accueil</a> / Services</p>
+      <h1>Nos services</h1>
+      <p>
+        L'organisation de Bonus Harvest s'articule autour de trois directions. Chaque service
+        publie ses résumés de documents et ses photos de terrain sur sa page.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow">Directions principales</p>
+        <h2>Pilotage et opérations</h2>
+      </div>
+      <div class="card-grid">
+        <a class="card" href="direction-generale.html">
+          <h3>Direction Générale</h3>
+          <p>Stratégie, représentation de l'entreprise et coordination des directions.</p>
+        </a>
+        <a class="card" href="direction-de-site.html">
+          <h3>Direction de site</h3>
+          <p>Conduite des opérations sur la concession : production, logistique, maintenance.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt">
+    <div class="container">
+      <div class="section__head">
+        <p class="eyebrow">Direction Gestion Durable</p>
+        <h2>Les métiers techniques de la forêt</h2>
+        <p>
+          <a href="direction-gestion-durable.html">Voir la présentation de la Direction Gestion Durable &rarr;</a>
+        </p>
+      </div>
+      <div class="card-grid" id="dgd-grid"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="../data/_services.js"></script>
+<script src="../assets/js/site.js"></script>
+<script>
+(function () {
+  "use strict";
+  var host = document.getElementById("dgd-grid");
+  var dgd = (window.BH_SERVICES || []).filter(function (s) { return s.groupe === "dgd"; });
+  host.innerHTML = dgd.map(function (s) {
+    return '<a class="card" href="' + s.slug + '.html"><h3>' + s.nom + "</h3></a>";
+  }).join("");
+})();
+</script>
+</body>
+</html>

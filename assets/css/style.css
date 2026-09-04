@@ -706,6 +706,11 @@ a.card:hover {
   letter-spacing: 0.06em;
 }
 
+.site-footer__cert--pending {
+  border-style: dashed !important;
+  opacity: 0.8;
+}
+
 .site-footer__legal {
   margin-top: 2.5rem;
   padding-top: 1.2rem;

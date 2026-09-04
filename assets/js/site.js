@@ -79,7 +79,11 @@
     "<div>" +
     '<p class="site-footer__brand">Bonus Harvest</p>' +
     "<p>Exploitation forestière responsable et gestion durable de la ressource bois.</p>" +
-    '<div class="site-footer__cert"><span>FSC (à confirmer)</span><span>PEFC (à confirmer)</span><span>FSAI</span></div>' +
+    '<div class="site-footer__cert">' +
+    "<span>PBNC – Preferred by Nature</span>" +
+    "<span>FSC COC</span>" +
+    '<span class="site-footer__cert--pending">FSC FM (certification en cours)</span>' +
+    "</div>" +
     "</div>" +
     "<div>" +
     "<h4>Naviguer</h4>" +
